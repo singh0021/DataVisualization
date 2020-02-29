@@ -3,8 +3,7 @@
 
 svgPanZoom(
   svglite:::inlineSVG(
-    #will put on separate line but also need show
-    show(
+        show(
       a
           )
   )
