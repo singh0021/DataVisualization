@@ -1,0 +1,216 @@
+ <!DOCTYPE html>
+    <html> <head>
+    <title>Minard map in D3</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+    <style>
+
+h1 {
+font-family:sans-serif
+}
+
+    text {
+        font-family: sans-serif;
+        font-size: 18px;
+    }
+body
+{
+background: #F8F9F9; 
+}
+
+</style>
+    <body>
+    <script src="minard_graph.js"></script>
+
+    <script>
+    
+// Data for plotting the graph
+var minard_data = {};
+
+minard_data.army = [
+    
+    {LON:24.0,  LAT:54.9,  SURV:340000, dir:1,  DIV:1},
+    {LON:24.5,  LAT:55.0,  SURV:340000, dir:1,  DIV:1},
+    {LON:25.5,  LAT:54.6,  SURV:340000, dir:1,  DIV:1},
+    {LON:26.0,  LAT:54.7,  SURV:320000, dir:1,  DIV:1},
+    {LON:27.0,  LAT:54.8,  SURV:300000, dir:1,  DIV:1},
+    {LON:28.0,  LAT:54.9,  SURV:280000, dir:1,  DIV:1},
+    {LON:28.5,  LAT:55.0,  SURV:240000, dir:1,  DIV:1},
+    {LON:29.0,  LAT:55.1,  SURV:210000, dir:1,  DIV:1},
+    {LON:30.0,  LAT:55.2,  SURV:180000, dir:1,  DIV:1},
+    {LON:30.3,  LAT:55.3,  SURV:175000, dir:1,  DIV:1},
+    {LON:32.0,  LAT:54.8,  SURV:145000, dir:1,  DIV:1},
+    {LON:33.2,  LAT:54.9,  SURV:140000, dir:1,  DIV:1},
+    {LON:34.4,  LAT:55.5,  SURV:127100, dir:1,  DIV:1},
+    {LON:35.5,  LAT:55.4,  SURV:100000, dir:1,  DIV:1},
+    {LON:36.0,  LAT:55.5,  SURV:100000, dir:1,  DIV:1},
+    {LON:37.6,  LAT:55.8,  SURV:100000, dir:1,  DIV:1},
+    {LON:37.65, LAT:55.65, SURV:100000, dir:-1, DIV:1},
+    {LON:37.45, LAT:55.62, SURV:98000,  dir:-1, DIV:1},
+    {LON:37.0,  LAT:55.0,  SURV:97000,  dir:-1, DIV:1},
+    {LON:36.8,  LAT:55.0,  SURV:96000,  dir:-1, DIV:1},
+    {LON:35.4,  LAT:55.3,  SURV:87000,  dir:-1, DIV:1},
+    {LON:34.3,  LAT:55.2,  SURV:55000,  dir:-1, DIV:1},
+    {LON:33.3,  LAT:54.8,  SURV:37000,  dir:-1, DIV:1},
+    {LON:32.0,  LAT:54.6,  SURV:24000,  dir:-1, DIV:1},
+    {LON:30.4,  LAT:54.4,  SURV:20000,  dir:-1, DIV:1},
+    {LON:29.2,  LAT:54.3,  SURV:20000,  dir:-1, DIV:1},
+    {LON:29.13, LAT:54.29, SURV:50000,  dir:-1, DIV:1}, 
+    {LON:28.5,  LAT:54.2,  SURV:50000,  dir:-1, DIV:1},
+    {LON:28.3,  LAT:54.3,  SURV:48000,  dir:-1, DIV:1},
+    {LON:26.8,  LAT:54.3,  SURV:12000,  dir:-1, DIV:1},
+    {LON:26.8,  LAT:54.4,  SURV:14000,  dir:-1, DIV:1},
+    {LON:25.0,  LAT:54.4,  SURV:8000,   dir:-1, DIV:1},
+    {LON:24.4,  LAT:54.4,  SURV:4000,   dir:-1, DIV:1},
+    {LON:24.2,  LAT:54.4,  SURV:4000,   dir:-1, DIV:1},
+    {LON:24.1,  LAT:54.4,  SURV:4000,   dir:-1, DIV:1},
+    {LON:24.0,  LAT:55.1,  SURV:60000,  dir:1,  DIV:2},
+    {LON:24.5,  LAT:55.2,  SURV:60000,  dir:1,  DIV:2},
+    {LON:25.5,  LAT:54.7,  SURV:60000,  dir:1,  DIV:2},
+    {LON:26.6,  LAT:55.7,  SURV:40000,  dir:1,  DIV:2},
+    {LON:27.4,  LAT:55.6,  SURV:33000,  dir:1,  DIV:2},
+    {LON:28.7,  LAT:55.5,  SURV:33000,  dir:1,  DIV:2},
+    {LON:28.7,  LAT:55.5,  SURV:33000,  dir:-1, DIV:2},
+    {LON:29.2,  LAT:54.29, SURV:30000,  dir:-1, DIV:2},
+    {LON:24.0,  LAT:55.2,  SURV:22000,  dir:1,  DIV:3},
+    {LON:24.5,  LAT:55.3,  SURV:22000,  dir:1,  DIV:3},
+    {LON:24.6,  LAT:55.8,  SURV:6000,   dir:1,  DIV:3},
+    {LON:24.6,  LAT:55.8,  SURV:6000,   dir:-1, DIV:3},
+    {LON:24.2,  LAT:54.4,  SURV:6000,   dir:-1, DIV:3},
+    {LON:24.1,  LAT:54.4,  SURV:6000,   dir:-1, DIV:3}
+];
+
+minard_data.temp = [
+    {LON:37.6, temp:0,   date:"18 Oct 1812"},
+    {LON:36.0, temp:0,   date:"24 Oct 1812"},
+    {LON:33.2, temp:-9,  date:"09 Nov 1812"},
+    {LON:32.0, temp:-21, date:"14 Nov 1812"},
+    {LON:29.2, temp:-11, date:"24 Nov 1812"},
+    {LON:28.5, temp:-20, date:"28 Nov 1812"},
+    {LON:27.2, temp:-24, date:"01 Dec 1812"},
+    {LON:26.7, temp:-30, date:"06 Dec 1812"},
+    {LON:25.3, temp:-26, date:"07 Dec 1812"}
+];
+
+minard_data.cities =
+    [{"LON": 24.0 ,"LAT":55.0 ,"name":"Kowno" },
+     {"LON": 25.3 ,"LAT":54.7 ,"name":"Wilna" },
+     {"LON": 26.4 ,"LAT":54.4 ,"name":"Smorgoni",dir:-1},
+     {"LON": 26.8 ,"LAT":54.3 ,"name":"Molodexno",dir:-1},
+     {"LON": 27.7 ,"LAT":55.2 ,"name":"Gloubokoe"},
+     {"LON": 27.6 ,"LAT":53.9 ,"name":"Minsk",dir:-1},
+     {"LON": 28.5 ,"LAT":54.3 ,"name":"Studienska",dir:-1},
+     {"LON": 28.7 ,"LAT":55.5 ,"name":"Polotzk"},
+     {"LON": 29.2 ,"LAT":54.4 ,"name":"Bobr",dir:-1},
+     {"LON": 30.2 ,"LAT":55.3 ,"name":"Witebsk"},
+     {"LON": 30.4 ,"LAT":54.5 ,"name":"Orscha",dir:-1},
+     {"LON": 30.4 ,"LAT":53.9 ,"name":"Mohilow",dir:-1},
+     {"LON": 32.0 ,"LAT":54.8 ,"name":"Smolensk"},
+     {"LON": 33.2 ,"LAT":54.9 ,"name":"Dorogobouge"},
+     {"LON": 34.3 ,"LAT":55.2 ,"name":"Wixma",dir:-1},
+     {"LON": 34.4 ,"LAT":55.5 ,"name":"Chjat"},
+     {"LON": 36.0 ,"LAT":55.5 ,"name":"Mojaisk"},
+     {"LON": 37.6 ,"LAT":55.8 ,"name":"Moscou"},
+     {"LON": 36.6 ,"LAT":55.3 ,"name":"Tarantino",dir:-1},
+     {"LON": 36.5 ,"LAT":55.0 ,"name":"Malo-jarosewli",dir:-1}
+    ]
+
+</script>
+    <h1><p align="center">MINARD’S MAP OF NAPOLEON’S RUSSIA CAMPAIGN.</h1>
+  
+</div>
+
+
+    <script>
+    var  width=1500,height=750;
+Load_Func = function() {
+d3.selectAll("svg").remove()
+
+d3.select("body").append("svg").attr('width',width).attr('height',height).attr('id','minard')
+
+screen = d3.geo.mercator().translate([width/2,height*(1/5)]).center([31,55]).scale(4000)
+
+layout = d3.layout.minard().pnts_position(function(d) {return screen([d.LON,d.LAT])})
+
+data = layout.segmented(function(d) {return d.DIV}).data(minard_data.army).Coord_T("xy").layout()
+
+// defining domain for survivor variable along with range
+Scale_wid = d3.scale.linear().domain([0,340000]).range([1,68])
+
+var lines = d3.select("#minard").selectAll("line").data(data)
+
+// Defining colors for advance and retreat journey
+Colored = d3.scale.category20c().domain([1,2,3]).range(['#fdae6b','#fdae6b','#636363'])
+
+var time = 9000; 
+distt = d3.extent(minard_data.army.map(function(d) {return d.x2}))
+Time_neg = d3.scale.linear().domain(distt).range([0,time])
+Time_Pos = d3.scale.linear().domain(distt).range([time,0])
+
+// time function in order to plot the chart interactively.
+Timed = function(d,element) {
+    out = d.dir==-1? time : 0;
+    lag = d.dir==-1 ? Time_Pos(d[element]) : Time_neg(d[element]);
+    return out+lag
+}
+// Locating the city position of the graph
+minard_data.cities = minard_data.cities.map(function(d) {
+    var point = screen([d.LON,d.LAT])
+    console.log(point)
+    d.x = point[0]
+    d.y = point[1]
+    return d
+})
+
+var cities = d3.select("#minard").selectAll("g").data(minard_data.cities)
+
+// Plotting the chart (Below code is taking care of defining width, time to plot the graph, style of the graph along with three groups
+lines.enter().append("line").attr("x1",function(d) {return d.x1}).attr("y1",function(d) {return d.y1}).attr("y2",function(d) {return d.y1})
+    .attr("x2",function(d) {return d.x1}).style("stroke-width",function(d) {return Scale_wid(d.SURV)}).style("stroke",function(d) {return Colored(d.DIV)}).style("opacity",1)
+    .transition().ease("linear").duration(function(d) {return Math.abs(Timed(d,'x2') - Timed(d,'x1'))}).delay(function(d) { return d3.min([Timed(d,'x1'),Timed(d,'x2')]) }).attr("y2",function(d) {return d.y2})
+    .attr("x2",function(d) {return d.x2}).style("stroke-linecap","round")
+
+
+cities = cities.enter().append("g").attr("transform",function(d) { return "translate(" + d.x + "," + d.y + ")" })
+
+
+circles = cities.append("circle").attr('r',3).style("fill","#00551d").style("opacity",0).transition().delay(function(d) {return Timed(d,'x')}).duration(1000).style("opacity",1)
+
+// Entering the labels for cities
+labels = cities.append("text").text(function(d) {return d.name}).style("fill","black").attr("transform","translate(5,5)").style("opacity",0).transition()
+    .delay(function(d) {return Timed(d,'x')-100}).duration(1000).style("opacity",1)
+
+
+
+Tmps = d3.select("#minard").append("g").attr("transform","translate(0,300)")
+
+// Defining the domain and range for temperature
+Scale_temp = d3.scale.linear().domain([1,-41]).range([0,200]) 
+
+// Y axis for showing temperature variable along axis.
+yaxis = d3.svg.axis().orient("right").scale(Scale_temp) 
+
+
+Tmps.append("g").attr("transform","translate(" + screen([37.6,55])[0] + "0)").attr("class","y axis").style("opacity",0).call(yaxis).transition().delay(time).style("opacity",1)
+Tmps.append("text").style("font-size",100).style("opacity",0).attr("transform","translate(265,100)").transition().delay(time).duration(2000).text("Temp During Retreat").style("opacity",.15)
+
+tmpLayout = d3.layout.minard().pnts_position(function(d) {return [screen([d.LON,55])[0],Scale_temp(d.temp)]})
+
+// Scaling the temperature in order to show it accurately on plot.
+minard_data.temp = minard_data.temp.map(function(d) {
+d.dir = -1; d.temp = d.temp*1.25;
+return d})
+tmpData = tmpLayout.segmented(function() {return 1}).data(minard_data.temp).Coord_T("xy").layout()
+tlines = Tmps.selectAll("line.temperature").data(tmpData)
+
+tlines.enter().append("line").attr("class","temperature").attr("x1",function(d) {return d.x1}).attr("y1",function(d) {return d.y1})
+    .attr("y2",function(d) {return d.y1}).attr("x2",function(d) {return d.x1}).style("stroke-width",2).style("stroke","#00551d").style("opacity",1).transition().ease("linear").duration(function(d) {return Math.abs(Timed(d,'x2') - Timed(d,'x1'))})
+    .delay(function(d) { return d3.min([Timed(d,'x1'),Timed(d,'x2')]) }).attr("y2",function(d) {return d.y2}).attr("x2",function(d) {return d.x2}).style("stroke-linecap","round")
+
+}
+
+// Calling the function in order to plot the graph
+Load_Func()
+</script>
+
+    
